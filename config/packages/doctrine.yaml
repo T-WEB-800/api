@@ -1,7 +1,12 @@
 doctrine:
     dbal:
-        url: "%env(resolve:DATABASE_URL)%"
-        server_version: 15.1
+        dbname: "%env(resolve:DATABASE_NAME)%"
+        host: "%env(resolve:DATABASE_HOST)%"
+        port: "%env(resolve:DATABASE_PORT)%"
+        user: "%env(resolve:DATABASE_USER)%"
+        password: "%env(resolve:DATABASE_PASSWORD)%"
+        driver: pdo_mysql
+        server_version: mariadb-10.11.7
         profiling_collect_backtrace: "%kernel.debug%"
         use_savepoints: true
     orm:
