@@ -22,6 +22,8 @@
 ###< phpunit/phpunit ###
 
 ###< additionals >###
-**/Dockerfile
-**/.dockerignore
-**/*.ini
+Dockerfile
+.dockerignore
+xdebug.ini
+/.composer
+
