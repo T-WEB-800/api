@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\DTO\User;
+namespace App\DTO\Auth;
 
 use App\DTO\Interface\RequestDTOInterface;
 use App\Exception\Request\InvalidRequestException;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CreateUserDTO implements RequestDTOInterface {
+class AuthRegisterDTO implements RequestDTOInterface {
 
     public function __construct() {}
 
@@ -117,7 +117,7 @@ class CreateUserDTO implements RequestDTOInterface {
         return $this;
     }
 
-    public function createFromRequest(Request $request, ValidatorInterface $validator): CreateUserDTO
+    public function createFromRequest(Request $request, ValidatorInterface $validator): AuthRegisterDTO
     {
         $requestBody = json_decode($request->getContent(), true);
 

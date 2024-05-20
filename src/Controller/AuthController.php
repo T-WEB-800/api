@@ -2,19 +2,14 @@
 
 namespace App\Controller;
 
-use App\DTO\User\CreateUserDTO;
-use App\DTO\User\LoginUserDTO;
+use App\DTO\Auth\AuthRegisterDTO;
 use App\Exception\Request\InvalidRequestException;
 use App\Service\AuthService;
-use Exception;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use PhpParser\Builder\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Throwable;
 
 class AuthController extends AbstractController
 {   
@@ -27,16 +22,16 @@ class AuthController extends AbstractController
     public function registerUser(Request $request): JsonResponse
     {   
         try {
-            $dto = new CreateUserDTO();
+            $dto = new AuthRegisterDTO();
 
-            $createUserDTO = $dto->createFromRequest($request, $this->validator);
+            $authRegisterDTO = $dto->createFromRequest($request, $this->validator);
 
-            return $this->authService->register($createUserDTO);
+            return $this->authService->register($authRegisterDTO);
         } catch (InvalidRequestException $e) {
             return new JsonResponse(['message' => $e->getMessage(), 'errors' => $e->getErrors()], $e->getCode());
         }
 
-        return new JsonResponse($createUserDTO, 200);
+        return new JsonResponse($authRegisterDTO, 200);
     }
 
     #[Route('/auth/login', name: 'login_user', methods: [Request::METHOD_POST])]
