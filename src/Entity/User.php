@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +31,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $password;
+
+    #[ORM\OneToMany(targetEntity: SearchQuery::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $searchQueries;
+
+    public function __construct()
+    {
+        $this->searchQueries = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -91,6 +101,35 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+    * @return Collection<int, SearchQuery>
+    */
+    public function getSearchQueries(): Collection
+    {
+        return $this->searchQueries;
+    }
+
+    public function addSearchQuery(SearchQuery $searchQuery): static
+    {
+        if (!$this->searchQueries->contains($searchQuery)) {
+            $this->searchQueries->add($searchQuery);
+            $searchQuery->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchQuery(SearchQuery $searchQuery): static
+    {
+        if ($this->searchQueries->removeElement($searchQuery)) {
+            if ($searchQuery->getUser() === $this) {
+                $searchQuery->setUser(null);
+            }
+        }
 
         return $this;
     }

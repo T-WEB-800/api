@@ -2,18 +2,20 @@
 
 namespace App\Service;
 
+use App\DTO\Auth\AuthRegisterDTO;
 use Symfony\Component\HttpFoundation\Response;
 use App\DTO\User\CreateUserDTO;
 use App\DTO\User\LoginUserDTO;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\ConstraintViolation;
 
 class AuthService {
     public function __construct(
@@ -23,7 +25,7 @@ class AuthService {
         private JWTTokenManagerInterface $jwtManager,
     ) {}
 
-    public function register(CreateUserDTO $dto): JsonResponse
+    public function register(AuthRegisterDTO $dto): JsonResponse
     {
         try {
             $user = new User();
@@ -40,28 +42,8 @@ class AuthService {
             $this->em->flush();
 
             return new JsonResponse($this->serializeUser($user), Response::HTTP_CREATED);
-        } catch (UniqueConstraintViolationException $ex) {
-            return new JsonResponse(null, Response::HTTP_FORBIDDEN);
-        } catch (Exception $ex) {
-            return new JsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public function login(LoginUserDTO $dto): JsonResponse
-    {
-        try {
-            $user = $this->userRepository->findOneBy(['login' => $dto->getUsername()]);
-
-            var_dump($user);
-            die();
-
-            if ($user && $user->getPassword() === $dto->getPassword()) {
-                $token = $this->jwtManager->create($user);
-
-                return new JsonResponse(['token' => $token], Response::HTTP_OK);
-            }
-
-            return new JsonResponse(null, Response::HTTP_UNAUTHORIZED);
+        } catch (ConstraintViolationException $ex) {
+            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         } catch (Exception $ex) {
             return new JsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
