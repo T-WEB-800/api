@@ -39,12 +39,6 @@ class AuthController extends AbstractController
         return new JsonResponse($createUserDTO, 200);
     }
 
-    #[Route('/auth/reset', name: 'reset_user', methods: [Request::METHOD_POST])]
-    public function resetUser(Request $request): JsonResponse
-    {
-        return new JsonResponse(null, 200);
-    }
-
     #[Route('/auth/login', name: 'login_user', methods: [Request::METHOD_POST])]
     public function loginUser(): void
     {}
