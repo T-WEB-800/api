@@ -4,7 +4,6 @@ namespace App\DTO\SearchQuery;
 
 use App\DTO\Interface\RequestDTOInterface;
 use App\Exception\Request\InvalidRequestException;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -24,14 +23,14 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
     #[Assert\DateTime]
     private ?string $arrivalDate;
 
-    #[Assert\Type(['integer', 'null'])]
-    private ?int $accomodationBudget;
+    #[Assert\Choice(['PRICE_LEVEL_INEXPENSIVE', 'PRICE_LEVEL_MODERATE', 'PRICE_LEVEL_EXPENSIVE', 'PRICE_LEVEL_VERY_EXPENSIVE', null])]
+    private ?string $accommodationBudget;
 
-    #[Assert\Type(['integer', 'null'])]
-    private ?int $restaurationBudget;
+    #[Assert\Choice(['PRICE_LEVEL_INEXPENSIVE', 'PRICE_LEVEL_MODERATE', 'PRICE_LEVEL_EXPENSIVE', 'PRICE_LEVEL_VERY_EXPENSIVE', null])]
+    private ?string $restaurationBudget;
 
-    #[Assert\Type(['integer', 'null'])]
-    private ?int $eventsBudget;
+    #[Assert\Choice(['PRICE_LEVEL_INEXPENSIVE', 'PRICE_LEVEL_MODERATE', 'PRICE_LEVEL_EXPENSIVE', 'PRICE_LEVEL_VERY_EXPENSIVE', null])]
+    private ?string $eventsBudget;
 
     public function getUserId(): int
     {
@@ -69,36 +68,36 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $this;
     }
 
-    public function getAccomodationBudget(): ?int 
+    public function getAccommodationBudget(): ?string 
     {
-        return $this->accomodationBudget;
+        return $this->accommodationBudget;
     }
 
-    public function setAccomodationBudget(?int $accomodationBudget): self 
+    public function setAccommodationBudget(?string $accommodationBudget): self 
     {
-        $this->accomodationBudget = $accomodationBudget;
+        $this->accommodationBudget = $accommodationBudget;
 
         return $this;
     }
 
-    public function getRestaurationBudget(): ?int 
+    public function getRestaurationBudget(): ?string 
     {
         return $this->restaurationBudget;
     }
 
-    public function setRestaurationBudget(?int $restaurationBudget): self 
+    public function setRestaurationBudget(?string $restaurationBudget): self 
     {
         $this->restaurationBudget = $restaurationBudget;
 
         return $this;
     }
 
-    public function getEventsBudget(): ?int 
+    public function getEventsBudget(): ?string 
     {
         return $this->eventsBudget;
     }
 
-    public function setEventsBudget(?int $eventsBudget): self 
+    public function setEventsBudget(?string $eventsBudget): self 
     {
         $this->eventsBudget = $eventsBudget;
 
@@ -116,7 +115,7 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $dto;
     }
 
-    private function getUserIdFromJsonBody(array $jsonContent): int
+    private function getUserIdFromJsonBody(array $jsonContent): ?int
     {
         return $jsonContent['userId'] ?? null;
     }
@@ -131,17 +130,17 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $jsonContent['arrivalDate'] ?? null;
     }
 
-    private function getAccomodationBudgetFromJsonBody(array $jsonContent): ?int
+    private function getAccommodationBudgetFromJsonBody(array $jsonContent): ?string
     {
-        return $jsonContent['accomodationBudget'] ?? null;
+        return $jsonContent['accommodationBudget'] ?? null;
     }
 
-    private function getRestaurationBudgetFromJsonBody(array $jsonContent): int
+    private function getRestaurationBudgetFromJsonBody(array $jsonContent): ?string
     {
         return $jsonContent['restaurationBudget'] ?? null;
     }
 
-    private function getEventsBudgetFromJsonBody(array $jsonContent): int
+    private function getEventsBudgetFromJsonBody(array $jsonContent): ?string
     {
         return $jsonContent['eventsBudget'] ?? null;
     }
@@ -152,7 +151,7 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
             ->setUserId($this->getUserIdFromJsonBody($jsonContent))
             ->setTargetLocation($this->getTargetLocationFromJsonBody($jsonContent))
             ->setArrivalDate($this->getArrivalDateFromJsonBody($jsonContent))
-            ->setAccomodationBudget($this->getAccomodationBudgetFromJsonBody($jsonContent))
+            ->setAccommodationBudget($this->getAccommodationBudgetFromJsonBody($jsonContent))
             ->setRestaurationBudget($this->getRestaurationBudgetFromJsonBody($jsonContent))
             ->setEventsBudget($this->getEventsBudgetFromJsonBody($jsonContent))
         ;

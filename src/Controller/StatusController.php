@@ -12,6 +12,6 @@ class StatusController
     #[Route('/status', name: 'status', methods: [Request::METHOD_GET])]
     public function status(): Response
     {
-        return new JsonResponse(null, 200);
+        return new JsonResponse(null, Response::HTTP_OK);
     }
 }

@@ -20,13 +20,13 @@ class SearchQuery
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $arrivalDate = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $accomodationBudget = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?int $accommodationBudget = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?int $restaurationBudget = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?int $eventsBudget = null;
 
     #[ORM\ManyToOne(inversedBy: 'searchQueries')]
@@ -62,36 +62,36 @@ class SearchQuery
         return $this;
     }
 
-    public function getAccomodationBudget(): ?int
+    public function getAccommodationBudget(): ?string
     {
-        return $this->accomodationBudget;
+        return $this->accommodationBudget;
     }
 
-    public function setAccomodationBudget(?int $accomodationBudget): self
+    public function setAccommodationBudget(?string $accommodationBudget): self
     {
-        $this->accomodationBudget = $accomodationBudget;
+        $this->accommodationBudget = $accommodationBudget;
 
         return $this;
     }
 
-    public function getRestaurationBudget(): ?int
+    public function getRestaurationBudget(): ?string
     {
         return $this->restaurationBudget;
     }
 
-    public function setRestaurationBudget(?int $restaurationBudget): self
+    public function setRestaurationBudget(?string $restaurationBudget): self
     {
         $this->restaurationBudget = $restaurationBudget;
 
         return $this;
     }
 
-    public function getEventsBudget(): ?int
+    public function getEventsBudget(): ?string
     {
         return $this->eventsBudget;
     }
 
-    public function setEventsBudget(?int $eventsBudget): self
+    public function setEventsBudget(?string $eventsBudget): self
     {
         $this->eventsBudget = $eventsBudget;
 

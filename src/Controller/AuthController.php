@@ -8,6 +8,7 @@ use App\Service\AuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -31,7 +32,7 @@ class AuthController extends AbstractController
             return new JsonResponse(['message' => $e->getMessage(), 'errors' => $e->getErrors()], $e->getCode());
         }
 
-        return new JsonResponse($authRegisterDTO, 200);
+        return new JsonResponse($authRegisterDTO, Response::HTTP_OK);
     }
 
     #[Route('/auth/login', name: 'login_user', methods: [Request::METHOD_POST])]

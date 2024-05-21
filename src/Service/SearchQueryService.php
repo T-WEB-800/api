@@ -35,7 +35,7 @@ class SearchQueryService {
     
             $searchQuery->setTargetLocation($dto->getTargetLocation())
                     ->setArrivalDate($this->getDateTimeFromString($dto->getArrivalDate()))
-                    ->setAccomodationBudget($dto->getAccomodationBudget())
+                    ->setAccommodationBudget($dto->getAccommodationBudget())
                     ->setRestaurationBudget($dto->getRestaurationBudget())
                     ->setEventsBudget($dto->getEventsBudget())
             ;
@@ -135,7 +135,7 @@ class SearchQueryService {
         return [
             'targetLocation' => $searchQuery->getTargetLocation(),
             'arrivalDate' => $searchQuery->getArrivalDate(),
-            'accomodationBudget' => $searchQuery->getAccomodationBudget(),
+            'accommodationBudget' => $searchQuery->getAccommodationBudget(),
             'restaurationBudget' => $searchQuery->getRestaurationBudget(),
             'eventsBudget' => $searchQuery->getEventsBudget()
         ];
