@@ -13,35 +13,25 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
 
     public function __construct() {}
 
-    #[Assert\NotBlank()]
-    #[Assert\NotNull()]
     #[Assert\Type('integer')]
-    private int $userId;
+    private ?int $userId;
 
     #[Assert\NotBlank()]
     #[Assert\NotNull()]
     #[Assert\Type('string')]
-    private string $departureLocation;
+    private string $targetLocation;
 
-    #[Assert\NotBlank()]
-    #[Assert\NotNull()]
     #[Assert\DateTime]
-    private string $departureDate;
+    private ?string $arrivalDate;
 
-    #[Assert\NotBlank()]
-    #[Assert\NotNull()]
-    #[Assert\Type('string')]
-    private string $arrivalLocation;
+    #[Assert\Type(['integer', 'null'])]
+    private ?int $accomodationBudget;
 
-    #[Assert\NotBlank()]
-    #[Assert\NotNull()]
-    #[Assert\DateTime]
-    private string $arrivalDate;
+    #[Assert\Type(['integer', 'null'])]
+    private ?int $restaurationBudget;
 
-    #[Assert\NotBlank()]
-    #[Assert\NotNull()]
-    #[Assert\Choice(['TRANSPORTATION_CAR', 'TRANSPORTATION_TRAIN', 'TRANSPORTATION_COACH', 'TRANSPORTATION_PLANE'])]
-    private string $preferredTransportation;
+    #[Assert\Type(['integer', 'null'])]
+    private ?int $eventsBudget;
 
     public function getUserId(): int
     {
@@ -55,38 +45,14 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $this;
     }
 
-    public function getDepartureLocation(): string 
+    public function getTargetLocation(): string 
     {
-        return $this->departureLocation;
+        return $this->targetLocation;
     }
 
-    public function setDepartureLocation(string $departureLocation): self 
+    public function setTargetLocation(string $targetLocation): self 
     {
-        $this->departureLocation = $departureLocation;
-
-        return $this;
-    }
-    
-    public function getDepartureDate(): string 
-    {
-        return $this->departureDate;
-    }
-
-    public function setDepartureDate(string $departureDate): self 
-    {
-        $this->departureDate = $departureDate;
-
-        return $this;
-    }
-
-    public function getArrivalLocation(): string 
-    {
-        return $this->arrivalLocation;
-    }
-
-    public function setArrivalLocation(string $arrivalLocation): self 
-    {
-        $this->arrivalLocation = $arrivalLocation;
+        $this->targetLocation = $targetLocation;
 
         return $this;
     }
@@ -103,14 +69,38 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $this;
     }
 
-    public function getPreferredTransportation(): string
+    public function getAccomodationBudget(): ?int 
     {
-        return $this->preferredTransportation;
+        return $this->accomodationBudget;
     }
 
-    public function setPreferredTransportation(string $preferredTransportation): self
+    public function setAccomodationBudget(?int $accomodationBudget): self 
     {
-        $this->preferredTransportation = $preferredTransportation;
+        $this->accomodationBudget = $accomodationBudget;
+
+        return $this;
+    }
+
+    public function getRestaurationBudget(): ?int 
+    {
+        return $this->restaurationBudget;
+    }
+
+    public function setRestaurationBudget(?int $restaurationBudget): self 
+    {
+        $this->restaurationBudget = $restaurationBudget;
+
+        return $this;
+    }
+
+    public function getEventsBudget(): ?int 
+    {
+        return $this->eventsBudget;
+    }
+
+    public function setEventsBudget(?int $eventsBudget): self 
+    {
+        $this->eventsBudget = $eventsBudget;
 
         return $this;
     }
@@ -131,19 +121,9 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $jsonContent['userId'] ?? null;
     }
 
-    private function getDepartureLocationFromJsonBody(array $jsonContent): ?string
+    private function getTargetLocationFromJsonBody(array $jsonContent): string
     {
-        return $jsonContent['departureLocation'] ?? null;
-    }
-
-    private function getDepartureDateFromJsonBody(array $jsonContent): ?string
-    {
-        return $jsonContent['departureDate'] ?? null;
-    }
-
-    private function getArrivalLocationFromJsonBody(array $jsonContent): ?string
-    {
-        return $jsonContent['arrivalLocation'] ?? null;
+        return $jsonContent['targetLocation'] ?? null;
     }
 
     private function getArrivalDateFromJsonBody(array $jsonContent): ?string
@@ -151,20 +131,30 @@ class CreateSearchQueryDTO implements RequestDTOInterface {
         return $jsonContent['arrivalDate'] ?? null;
     }
 
-    private function getPreferredTransportationFromJsonBody(array $jsonContent): ?string
+    private function getAccomodationBudgetFromJsonBody(array $jsonContent): ?int
     {
-        return $jsonContent['preferredTransportation'] ?? null;
+        return $jsonContent['accomodationBudget'] ?? null;
+    }
+
+    private function getRestaurationBudgetFromJsonBody(array $jsonContent): int
+    {
+        return $jsonContent['restaurationBudget'] ?? null;
+    }
+
+    private function getEventsBudgetFromJsonBody(array $jsonContent): int
+    {
+        return $jsonContent['eventsBudget'] ?? null;
     }
 
     private function hydrate(array $jsonContent): self
     {
         $this
             ->setUserId($this->getUserIdFromJsonBody($jsonContent))
-            ->setDepartureLocation($this->getDepartureLocationFromJsonBody($jsonContent))
-            ->setDepartureDate($this->getDepartureDateFromJsonBody($jsonContent))
-            ->setArrivalLocation($this->getArrivalLocationFromJsonBody($jsonContent))
+            ->setTargetLocation($this->getTargetLocationFromJsonBody($jsonContent))
             ->setArrivalDate($this->getArrivalDateFromJsonBody($jsonContent))
-            ->setPreferredTransportation($this->getPreferredTransportationFromJsonBody($jsonContent))
+            ->setAccomodationBudget($this->getAccomodationBudgetFromJsonBody($jsonContent))
+            ->setRestaurationBudget($this->getRestaurationBudgetFromJsonBody($jsonContent))
+            ->setEventsBudget($this->getEventsBudgetFromJsonBody($jsonContent))
         ;
         
         return $this;

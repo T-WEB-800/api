@@ -15,22 +15,22 @@ class SearchQuery
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $departureLocation = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $departureDate = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $arrivalLocation = null;
+    private ?string $targetLocation;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $arrivalDate = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $preferredTransportation = null;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $accomodationBudget = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $restaurationBudget = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $eventsBudget = null;
 
     #[ORM\ManyToOne(inversedBy: 'searchQueries')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     public function getId(): ?int
@@ -38,38 +38,14 @@ class SearchQuery
         return $this->id;
     }
 
-    public function getDepartureLocation(): ?string
+    public function getTargetLocation(): ?string
     {
-        return $this->departureLocation;
+        return $this->targetLocation;
     }
 
-    public function setDepartureLocation(string $departureLocation): static
+    public function setTargetLocation(string $targetLocation): static
     {
-        $this->departureLocation = $departureLocation;
-
-        return $this;
-    }
-
-    public function getDepartureDate(): ?\DateTimeInterface
-    {
-        return $this->departureDate;
-    }
-
-    public function setDepartureDate(\DateTimeInterface $departureDate): static
-    {
-        $this->departureDate = $departureDate;
-
-        return $this;
-    }
-
-    public function getArrivalLocation(): ?string
-    {
-        return $this->arrivalLocation;
-    }
-
-    public function setArrivalLocation(string $arrivalLocation): static
-    {
-        $this->arrivalLocation = $arrivalLocation;
+        $this->targetLocation = $targetLocation;
 
         return $this;
     }
@@ -86,14 +62,38 @@ class SearchQuery
         return $this;
     }
 
-    public function getPreferredTransportation(): ?string
+    public function getAccomodationBudget(): ?int
     {
-        return $this->preferredTransportation;
+        return $this->accomodationBudget;
     }
 
-    public function setPreferredTransportation(string $preferredTransportation): static
+    public function setAccomodationBudget(?int $accomodationBudget): self
     {
-        $this->preferredTransportation = $preferredTransportation;
+        $this->accomodationBudget = $accomodationBudget;
+
+        return $this;
+    }
+
+    public function getRestaurationBudget(): ?int
+    {
+        return $this->restaurationBudget;
+    }
+
+    public function setRestaurationBudget(?int $restaurationBudget): self
+    {
+        $this->restaurationBudget = $restaurationBudget;
+
+        return $this;
+    }
+
+    public function getEventsBudget(): ?int
+    {
+        return $this->eventsBudget;
+    }
+
+    public function setEventsBudget(?int $eventsBudget): self
+    {
+        $this->eventsBudget = $eventsBudget;
 
         return $this;
     }

@@ -33,11 +33,11 @@ class SearchQueryService {
             
             $searchQuery = new SearchQuery();
     
-            $searchQuery->setDepartureLocation($dto->getDepartureLocation())
-                    ->setDepartureDate($this->getDateTimeFromString($dto->getDepartureDate()))
-                    ->setArrivalLocation($dto->getArrivalLocation())
+            $searchQuery->setTargetLocation($dto->getTargetLocation())
                     ->setArrivalDate($this->getDateTimeFromString($dto->getArrivalDate()))
-                    ->setPreferredTransportation($dto->getPreferredTransportation())
+                    ->setAccomodationBudget($dto->getAccomodationBudget())
+                    ->setRestaurationBudget($dto->getRestaurationBudget())
+                    ->setEventsBudget($dto->getEventsBudget())
             ;
             
             $user->addSearchQuery($searchQuery);
@@ -133,11 +133,11 @@ class SearchQueryService {
     private function serializeSearchQuery(SearchQuery $searchQuery): array 
     {
         return [
-            'departureLocation' => $searchQuery->getDepartureLocation(),
-            'departureDate' => $searchQuery->getDepartureDate(),
-            'arrivalLocation' => $searchQuery->getArrivalLocation(),
+            'targetLocation' => $searchQuery->getTargetLocation(),
             'arrivalDate' => $searchQuery->getArrivalDate(),
-            'preferredTransportation' => $searchQuery->getPreferredTransportation()
+            'accomodationBudget' => $searchQuery->getAccomodationBudget(),
+            'restaurationBudget' => $searchQuery->getRestaurationBudget(),
+            'eventsBudget' => $searchQuery->getEventsBudget()
         ];
     }
 }
